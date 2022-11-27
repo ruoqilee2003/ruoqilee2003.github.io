@@ -31,3 +31,13 @@ nav ul li:hover {
 	background-color: #C74B27; 
 	color: #F2EAE8;}
 a {text-decoration: none}
+
+.left, .right, .main{
+  float: left;
+  width: 33%;
+}
+@media screen and (max-width:800px) {
+  .left, .main, .right {
+	width: 100%; 
+  }
+}
