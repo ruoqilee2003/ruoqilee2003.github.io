@@ -31,6 +31,8 @@ label {
 .container {
   border-radius: 5px;
   padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .col-25 {
@@ -65,10 +67,17 @@ label {
     margin-top: 0;
   }
 }
-</style>
-</head>
-<body>
 
+@media print {
+  div {
+  	font-family: Lucida Console;
+  }
+
+  .pic {
+    display: none
+  }
+
+}
 
 /*
 Requirements
