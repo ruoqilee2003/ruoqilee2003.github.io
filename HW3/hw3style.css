@@ -69,14 +69,15 @@ label {
 }
 
 @media print {
-  div {
-  	font-family: Lucida Console;
-  }
-
-  .pic {
-    display: none
-  }
-
+	.container {
+		color: lightgray;
+	}
+	div {
+		font-family: Lucida Console;
+	}
+	.pic {
+		display: none;
+	}
 }
 
 /*
