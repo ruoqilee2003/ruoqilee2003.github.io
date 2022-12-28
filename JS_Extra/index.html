@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<body>
+
+</body>
+<script>
+	var data;
+	var char;
+	var count;
+	data=window.prompt("Input data");
+	char=window.prompt("Input a char to search");
+	var position = data.indexOf(char);
+
+	document.write("<p>Data: "+data+"</p>"+"<p>Char: "+char+"</p>"+"<p>Position: ")
+	for(var i=0; i<data.length; i++){
+		var count=data.indexOf(char,count+1);
+            if(count<0){
+                break;
+            }
+            document.write("<p>"+count+"</p>");
+    }
+</script>
+</html>
