@@ -13,15 +13,15 @@ function preload() {
   ];
   // Randomly select a cat image
   const randomCatUrl = random(catUrls);
-  catImg = loadImage(randomCatUrl);
+  MemeImg = loadImage(randomCatUrl);
 }
 
 async function setup() {
-  createCanvas(800, 800);
+  createCanvas(600, 600);
   background(255);
 
   // Draw the cat image and apply a light overlay
-  image(catImg, 0, 0, width, height);
+  image(MemeImg, 0, 0, width, height);
   fill(255, 255, 255, 0.3);  // Semi-transparent white
   rect(0, 0, width, height);
 
