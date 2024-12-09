@@ -5,6 +5,11 @@ let x, y; // DVD 位置
 let xSpeed, ySpeed; // DVD 速度
 let boundary = { x: 100, y: 100, w: 600, h: 400 }; // 框的範圍
 
+// 震動變數
+let oscillation = 17; // 設置較大的初始振幅
+let damping = 0.8; // 阻尼係數，用於減弱震動
+let oscillating = false; // 是否在震動
+
 function preload() {
   dvd = loadImage('windows.png');
   
@@ -19,8 +24,8 @@ function setup() {
   createCanvas(800, 600);
   x = random(boundary.x, boundary.x + boundary.w - 100); // 初始位置
   y = random(boundary.y, boundary.y + boundary.h - 100);
-  xSpeed = random(2, 5);
-  ySpeed = random(2, 5);
+  xSpeed = random(65, 80); // 初始速度範圍減小
+  ySpeed = random(65, 80);
 }
 
 function draw() {
@@ -44,6 +49,14 @@ function draw() {
   // 檢測碰撞
   checkCollision();
 
+  // 計算震動位移
+  let vibration = oscillating ? cos(oscillation) * oscillation * 0.5 : 0; // 減少震動幅度
+  oscillation *= damping; // 阻尼使震動逐漸減弱
+
+  if (abs(oscillation) < 0.01) {
+    oscillating = false; // 當震動很小時，停止震動
+  }
+
   // 繪製裂痕
   for (let i = cracks.length - 1; i >= 0; i--) {
     let c = cracks[i];
@@ -55,25 +68,44 @@ function draw() {
   }
 
   // 繪製 DVD 圖片
-  image(dvd, x, y, 100, 100);
+  image(dvd, x + vibration, y + vibration, 100, 100);
+
+  // 如果速度大於10，就減緩至10
+  if (xSpeed >= 10) {
+    xSpeed *= 0.6; 
+    ySpeed *= 0.6; 
+  } else {
+    xSpeed *= 1; 
+    ySpeed *= 1; 
+  }
 }
 
 // 檢測碰撞的函數
 function checkCollision() {
   if (x <= boundary.x) {
     xSpeed *= -1;
+    addOscillation(true); // 左邊框，左右震動
     addCrack(boundary.x - 40, y + 50); // 左邊框
   } else if (x + 100 >= boundary.x + boundary.w) {
     xSpeed *= -1;
+    addOscillation(true); // 右邊框，左右震動
     addCrack(boundary.x + boundary.w - 40, y + 50); // 右邊框
   }
   if (y <= boundary.y) {
     ySpeed *= -1;
+    addOscillation(false); // 上邊框，上下震動
     addCrack(x + 50, boundary.y - 40); // 上邊框
   } else if (y + 100 >= boundary.y + boundary.h) {
     ySpeed *= -1;
+    addOscillation(false); // 下邊框，上下震動
     addCrack(x + 50, boundary.y + boundary.h - 40); // 下邊框
   }
+}
+
+// 增加震動效果的函數
+function addOscillation(horizontal) {
+  oscillating = true;
+  oscillation = 15; // 設置較大的初始振幅
 }
 
 // 新增裂痕的函數
