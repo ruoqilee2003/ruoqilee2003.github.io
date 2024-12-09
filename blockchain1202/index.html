@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>DVD 螢幕不保護程式</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      border: 0;
+
+      background-color: #111;
+      height: 100%;
+    }
+
+    main {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      background-color: #111;
+    }
+
+    canvas {
+      display: block;
+      /* margin: auto auto; */
+
+      padding: 0;
+      border: 0;
+    }
+  </style>
+  <script src="libraries/fxhash.js"></script>
+  <script src="libraries/p5.min.js"></script>
+  <script src="easings.js"></script>
+  <script>
+    function fxpreview() {
+      $fx.preview();
+      console.log('FXPREVIEW');
+    }
+  </script>
+</head>
+
+<body>
+  <h1 style="text-align: center; position: absolute; top: 20px; width: 100%;">DVD 螢幕不保護程式</h1>
+  <button onclick="location.reload();" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);">Play Again</button> <!-- Button below the black frame -->
+  <script src="sketch.js"></script> <!-- Link to your P5.js sketch -->
+</body>
+
+</html>
