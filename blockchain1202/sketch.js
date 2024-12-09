@@ -6,7 +6,7 @@ let xSpeed, ySpeed; // DVD 速度
 let boundary = { x: 100, y: 100, w: 600, h: 400 }; // 框的範圍
 
 // 震動變數
-let oscillation = 17; // 設置較大的初始振幅
+let oscillation = 9; // 設置較大的初始振幅
 let damping = 0.8; // 阻尼係數，用於減弱震動
 let oscillating = false; // 是否在震動
 
@@ -24,8 +24,8 @@ function setup() {
   createCanvas(800, 600);
   x = random(boundary.x, boundary.x + boundary.w - 100); // 初始位置
   y = random(boundary.y, boundary.y + boundary.h - 100);
-  xSpeed = random(65, 80); // 初始速度範圍減小
-  ySpeed = random(65, 80);
+  xSpeed = random(40, 70); // 初始速度範圍減小
+  ySpeed = random(40, 70);
 }
 
 function draw() {
@@ -65,15 +65,14 @@ function draw() {
     if (c.life <= 0) {
       cracks.splice(i, 1); // 移除過期的裂痕
     }
-  }
+}
 
   // 繪製 DVD 圖片
   image(dvd, x + vibration, y + vibration, 100, 100);
 
-  // 如果速度大於10，就減緩至10
-  if (xSpeed >= 10) {
-    xSpeed *= 0.6; 
-    ySpeed *= 0.6; 
+  if (xSpeed >= 5) {
+    xSpeed *= 0.7; 
+    ySpeed *= 0.7; 
   } else {
     xSpeed *= 1; 
     ySpeed *= 1; 
@@ -105,7 +104,7 @@ function checkCollision() {
 // 增加震動效果的函數
 function addOscillation(horizontal) {
   oscillating = true;
-  oscillation = 15; // 設置較大的初始振幅
+  oscillation = 20; // 設置較大的初始振幅
 }
 
 // 新增裂痕的函數
