@@ -41,7 +41,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(1000, 800);
+  createCanvas(700, 500);
   imageMode(CENTER); // 設定圖片繪製模式為中心
   bgImage = bgImages[currentImageIndex]; // 初始背景圖片
 }
