@@ -1,0 +1,49 @@
+/* Resetting default margins and paddings */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #111;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Header: title section */
+  header {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #222;
+    color: #fff;
+    font-size: 24px;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Main: canvas area */
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1; /* Takes the remaining vertical space */
+  }
+  
+  /* Footer: button section */
+  footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #222;
+  }
+  
+  footer button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #444;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  footer button:hover {
+    background-color: #666;
+  }
+  
