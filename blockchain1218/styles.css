@@ -1,0 +1,108 @@
+/* 全域樣式 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1e1e2f; /* 深色背景 */
+    color: #ffffff; /* 白色文字 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  /* 容器 */
+  .container {
+    width: 90%;
+    max-width: 500px;
+    background: #2c2c3a; /* 深色容器背景 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  
+  /* 標題 */
+  .title {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #ffffff;
+  }
+  
+  /* 聊天框 */
+  .chat-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #444; /* 淡灰色邊框 */
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #242435; /* 聊天框背景 */
+  }
+  
+  /* 聊天氣泡 */
+  .chat-bubble {
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    word-wrap: break-word;
+  }
+  
+  /* 機器人聊天氣泡 */
+  .bot {
+    background-color: #3a3a5a; /* 深紫色 */
+    align-self: flex-start;
+    color: #ffffff;
+  }
+  
+  /* 使用者聊天氣泡 */
+  .user {
+    background-color: #4caf50; /* 綠色 */
+    align-self: flex-end;
+    color: #ffffff;
+  }
+  
+  /* 按鈕區域 */
+  .controls {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* 按鈕樣式 */
+  button {
+    background-color: #007bff; /* 藍色 */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3; /* 深藍色 */
+  }
+  
+  /* 聊天氣泡的彈出動畫 */
+.chat-bubble {
+    opacity: 0;
+    transform: scale(0.95);
+    animation: pop-in 0.3s ease forwards;
+  }
+  
+@keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  
