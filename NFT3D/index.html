@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tezos NFT Viewer</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <script>
+    function goToResultPage() {
+      const walletInput = document.getElementById("walletInput").value.trim();
+      if (!walletInput) {
+        alert("Please enter a valid Tezos wallet address.");
+        return;
+      }
+      // 跳轉到 result.html 並攜帶錢包地址
+      window.location.href = `result.html?wallet=${encodeURIComponent(walletInput)}`;
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Tezos NFT Viewer</h1>
+    </header>
+    <div class="form-container">
+      <input type="text" id="walletInput" placeholder="Enter Tezos Wallet Address (e.g., tz1...)" />
+      <button onclick="goToResultPage()">View NFTs</button>
+    </div>
+  </div>
+</body>
+</html>
