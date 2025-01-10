@@ -1,0 +1,148 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #292929;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    position: relative;
+    background-color: #525BE4; /* 藍色底 */
+    color: white; /* 白色文字 */
+    padding: 20px;
+    text-align: left;
+    max-width: 600px;
+    width: 100%;
+    border-bottom: 2px solid #0056b3;
+}
+
+header h1, header p {
+    margin: 0;
+}
+
+.captcha-container {
+    width: 80%;
+    max-width: 600px; /* 確保在大螢幕上的最大寬度 */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-image: url('images/49.png'); /* 本地背景圖片 */
+    text-align: center;
+}
+
+h1, p {
+    color: white; /* 文字顏色設為白色 */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.canvas {
+    position: relative;
+    width: 100%; /* 自適應寬度 */
+    max-width: 500px; /* 限制畫布的最大寬度 */
+    aspect-ratio: 1 / 1; /* 確保畫布保持正方形 */
+    background-size: cover;
+    background-position: center;
+    margin: 20px auto;
+    overflow: hidden;
+    border: px solid #ddd;
+    border-radius: 5px;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 設定 4 列 */
+    grid-template-rows: repeat(4, 1fr);   /* 設定 4 行 */
+    gap: 5px;
+    width: 100%;
+    height: 100%;
+}
+
+.image-grid img {
+    width: 100%; /* 圖片寬度自適應格子大小 */
+    height: 100%; /* 圖片高度自適應格子大小 */
+    object-fit: cover; /* 確保圖片完整填充 */
+    border: 2px solid transparent; /* 預設框線為透明 */
+    cursor: pointer;
+    border-radius: 3px;
+    transition: transform 0.2s ease; /* 為非選中圖片添加平滑過渡 */
+}
+
+.image-grid img.selected {
+    border-color: #525BE4; /* 已選中的圖片框線顏色 */
+    border-width: 2px; /* 框線厚度 */
+    border-style: solid; /* 框線為實線 */
+    transform: scale(0.95); /* 縮小圖片 */
+    transition: transform 0.2s ease; /* 平滑過渡效果 */
+}
+
+
+#verify-btn {
+    padding: 10px 20px;
+    background-color: #525BE4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    display: block;
+    margin-top: 20px;
+    width: auto;
+    margin-left: auto;  /* 靠右對齊 */
+}
+
+#verify-btn:hover {
+    background-color: #0056b3;
+}
+
+#result-message {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+/* 手機響應式設置 */
+@media (max-width: 768px) {
+    .captcha-container {
+        width: 90%; /* 在小螢幕上擴展容器寬度 */
+        padding: 15px;
+    }
+
+    .canvas {
+        width: 100%; /* 保持畫布寬度自適應 */
+    }
+
+    #verify-btn {
+        padding: 8px 15px; /* 調整按鈕大小 */
+        font-size: 14px; /* 減小字體 */
+    }
+
+    #result-message {
+        font-size: 14px; /* 減小結果字體大小 */
+    }
+}
+
+@media (max-width: 480px) {
+    .captcha-container {
+        width: 95%; /* 更大的寬度調整 */
+        padding: 10px;
+    }
+
+    .canvas {
+        max-width: 300px; /* 限制畫布寬度 */
+    }
+
+    #verify-btn {
+        padding: 6px 12px; /* 按鈕尺寸更小 */
+        font-size: 12px; /* 字體更小 */
+    }
+
+    #result-message {
+        font-size: 12px; /* 字體更小 */
+    }
+}
