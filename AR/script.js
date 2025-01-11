@@ -25,7 +25,7 @@ function startWebGL() {
     0.1,
     1000
   );
-  camera.position.set(0, 1.6, 0); // Simulate eye height for AR experience
+  camera.position.set(0, 1.6, 0); // Starting position: simulate eye height for AR
 
   // Create multiple cubes with different positions
   const cubes = [];
@@ -38,12 +38,41 @@ function startWebGL() {
     cube.position.set(
       Math.random() * 6 - 3, // X between -3 and 3
       1.5, // Fixed height (1.5m above ground)
-      Math.random() * -6 - 1 // Z between -1 and -7 (farther away)
+      Math.random() * -10 - 1 // Z between -1 and -11 (farther away)
     );
 
     scene.add(cube);
     cubes.push(cube);
   }
+
+  // Variable to track user's movement
+  let velocityZ = 0; // Forward/backward velocity
+  let lastTimestamp = null; // To track time between motion events
+
+  // Handle DeviceMotion for walking simulation
+  window.addEventListener("devicemotion", (event) => {
+    const accelerationZ = event.acceleration.z || 0; // Acceleration along Z-axis (towards/away from user)
+
+    if (lastTimestamp !== null) {
+      const deltaTime = (event.timeStamp - lastTimestamp) / 1000; // Convert to seconds
+      velocityZ += accelerationZ * deltaTime; // Update velocity (v = v0 + at)
+
+      // Update camera position based on velocity
+      camera.position.z += velocityZ * deltaTime; // Update Z position
+    }
+
+    lastTimestamp = event.timeStamp;
+  });
+
+  // Handle DeviceOrientation for looking around
+  window.addEventListener("deviceorientation", (event) => {
+    const gamma = event.gamma || 0; // Left/Right tilt
+    const beta = event.beta || 0; // Up/Down tilt
+
+    // Adjust camera position or rotation based on tilt
+    camera.rotation.y = THREE.MathUtils.degToRad(gamma); // Horizontal rotation
+    camera.rotation.x = THREE.MathUtils.degToRad(beta); // Vertical rotation
+  });
 
   // Animate the scene
   function animate() {
@@ -60,16 +89,6 @@ function startWebGL() {
     });
   }
   animate();
-
-  // Device orientation for AR-like movement
-  window.addEventListener("deviceorientation", (event) => {
-    const gamma = event.gamma || 0; // Left/Right tilt
-    const beta = event.beta || 0; // Up/Down tilt
-
-    // Adjust camera position based on tilt
-    camera.position.x = gamma / 10; // Adjust sensitivity if needed
-    camera.position.y = 1.6 - beta / 50; // Maintain relative height
-  });
 }
 
 // Show popup when close to a cube
