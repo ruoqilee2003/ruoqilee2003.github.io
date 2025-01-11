@@ -1,60 +1,55 @@
-// 當用戶點擊按鈕時啟動 AR
-document.getElementById("start-ar-btn").addEventListener("click", () => {
-  if (navigator.xr) {
-      // 啟動 WebXR AR Session，要求手部追蹤特性
-      navigator.xr.requestSession('immersive-ar', {
-          requiredFeatures: ['hand-tracking']
-      }).then(onSessionStarted).catch(err => {
-          console.error('Failed to start AR session:', err);
-      });
-  } else {
-      console.error('WebXR is not supported on this device.');
-  }
+const videoElement = document.getElementById('videoElement');
+const canvasElement = document.getElementById('canvasElement');
+const ctx = canvasElement.getContext('2d');
+
+// 設定 MediaPipe 手部追蹤
+const hands = new Hands({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`});
+hands.setOptions({
+  maxNumHands: 2,
+  minDetectionConfidence: 0.5,
+  minTrackingConfidence: 0.5
 });
 
-function onSessionStarted(session) {
-  session.addEventListener('end', onSessionEnded);
+// 設定相機
+const camera = new Camera(videoElement, {
+  onFrame: async () => {
+    await hands.send({image: videoElement});
+  },
+  width: 640,
+  height: 480
+});
+camera.start();
 
-  // 設置參考空間來處理虛擬物體的位置
-  const handTracking = session.requestReferenceSpace('local').then(referenceSpace => {
-      session.requestAnimationFrame(onXRFrame);
-  });
+// 當 MediaPipe 偵測到手部時的處理函數
+hands.onResults((results) => {
+  ctx.save();
+  ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
-  function onXRFrame(time, frame) {
-      const referenceSpace = frame.getViewerPose(handTracking);
-      if (referenceSpace) {
-          // 獲取手部追蹤位置
-          const handPosition = referenceSpace[0].pose.position;
-          console.log("Hand Position:", handPosition);
+  if (results.multiHandLandmarks) {
+    for (const landmarks of results.multiHandLandmarks) {
+      // 繪製手部地標點
+      drawConnectors(ctx, landmarks, HAND_CONNECTIONS, {color: '#00FF00', lineWidth: 2});
+      drawLandmarks(ctx, landmarks, {color: '#FF0000', lineWidth: 1});
 
-          // 假設有一個虛擬物體的位置
-          const objectPosition = { x: 0, y: 1.5, z: 2 };  // 這是方塊在三維空間中的位置
+      // 偵測觸碰事件，假設使用拇指和食指作為觸控點
+      const thumbTip = landmarks[4];  // 拇指尖端
+      const indexTip = landmarks[8];  // 食指尖端
 
-          // 檢查手部是否接近物體
-          if (isHandNearObject(handPosition, objectPosition)) {
-              triggerInteraction();
-          }
+      const distance = Math.sqrt(
+        Math.pow(thumbTip.x - indexTip.x, 2) +
+        Math.pow(thumbTip.y - indexTip.y, 2)
+      );
+
+      // 假設當拇指和食指的距離小於某個閾值時觸發互動
+      if (distance < 0.05) {
+        triggerInteraction();
       }
+    }
   }
-}
+  ctx.restore();
+});
 
-// 計算手部與物體之間的距離
-function isHandNearObject(handPosition, objectPosition) {
-  const distance = Math.sqrt(
-      Math.pow(handPosition.x - objectPosition.x, 2) +
-      Math.pow(handPosition.y - objectPosition.y, 2) +
-      Math.pow(handPosition.z - objectPosition.z, 2)
-  );
-  return distance < 0.5; // 如果手部距離物體小於 50 cm，就觸發互動
-}
-
-// 當手部接近物體時觸發互動
+// 當手部接觸時觸發的互動
 function triggerInteraction() {
-  // 顯示觸摸彈窗
-  alert('You touched the object!');
-}
-
-// AR session 結束時的處理
-function onSessionEnded() {
-  console.log('AR session ended');
+  alert('你觸碰到了物體！');
 }
