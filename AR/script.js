@@ -27,44 +27,27 @@ function startWebGL() {
   );
   camera.position.set(0, 1.6, 0); // Starting position: simulate eye height for AR
 
-  // Create multiple cubes with different positions
+  // Create 5 cubes around the user in a circle
   const cubes = [];
+  const radius = 2; // Radius of the circle
   for (let i = 0; i < 5; i++) {
     const geometry = new THREE.BoxGeometry();
     const material = new THREE.MeshBasicMaterial({ color: Math.random() * 0xffffff });
     const cube = new THREE.Mesh(geometry, material);
 
-    // Random positions in a virtual space
+    // Position cubes in a circle around the user
+    const angle = (i / 5) * Math.PI * 2; // Equal spacing for 5 cubes
     cube.position.set(
-      Math.random() * 6 - 3, // X between -3 and 3
-      1.5, // Fixed height (1.5m above ground)
-      Math.random() * -10 - 1 // Z between -1 and -11 (farther away)
+      Math.cos(angle) * radius,
+      1.5, // Fixed height
+      Math.sin(angle) * radius
     );
 
     scene.add(cube);
     cubes.push(cube);
   }
 
-  // Variable to track user's movement
-  let velocityZ = 0; // Forward/backward velocity
-  let lastTimestamp = null; // To track time between motion events
-
-  // Handle DeviceMotion for walking simulation
-  window.addEventListener("devicemotion", (event) => {
-    const accelerationZ = event.acceleration.z || 0; // Acceleration along Z-axis (towards/away from user)
-
-    if (lastTimestamp !== null) {
-      const deltaTime = (event.timeStamp - lastTimestamp) / 1000; // Convert to seconds
-      velocityZ += accelerationZ * deltaTime; // Update velocity (v = v0 + at)
-
-      // Update camera position based on velocity
-      camera.position.z += velocityZ * deltaTime; // Update Z position
-    }
-
-    lastTimestamp = event.timeStamp;
-  });
-
-  // Handle DeviceOrientation for looking around
+  // Device orientation to allow user to look around
   window.addEventListener("deviceorientation", (event) => {
     const gamma = event.gamma || 0; // Left/Right tilt
     const beta = event.beta || 0; // Up/Down tilt
@@ -74,19 +57,21 @@ function startWebGL() {
     camera.rotation.x = THREE.MathUtils.degToRad(beta); // Vertical rotation
   });
 
+  // Check for proximity to each cube
+  function checkProximity() {
+    cubes.forEach((cube, index) => {
+      const distance = cube.position.distanceTo(camera.position);
+      if (distance < 2) { // If the cube is within 2 meters
+        showPopup(index); // Trigger the popup for this cube
+      }
+    });
+  }
+
   // Animate the scene
   function animate() {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
-
-    // Check for proximity to each cube
-    cubes.forEach((cube, index) => {
-      const distance = cube.position.distanceTo(camera.position);
-
-      if (distance < 1.5) { // If within 1.5 meters
-        showPopup(index);
-      }
-    });
+    checkProximity(); // Check if any cube is close enough for interaction
   }
   animate();
 }
