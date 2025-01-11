@@ -1,9 +1,9 @@
-// Start the camera with the front camera
+// Start the camera with the back camera
 async function startCamera() {
   const video = document.getElementById("camera");
   try {
     const stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "user" }, // Use the front camera
+      video: { facingMode: "environment" }, // Use the back camera
     });
     video.srcObject = stream;
   } catch (err) {
