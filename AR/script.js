@@ -1,95 +1,60 @@
-// Start the camera with the back camera
-async function startCamera() {
-  const video = document.getElementById("camera");
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "environment" }, // Use the back camera
-    });
-    video.srcObject = stream;
-  } catch (err) {
-    console.error("Error accessing camera:", err);
+// 當用戶點擊按鈕時啟動 AR
+document.getElementById("start-ar-btn").addEventListener("click", () => {
+  if (navigator.xr) {
+      // 啟動 WebXR AR Session，要求手部追蹤特性
+      navigator.xr.requestSession('immersive-ar', {
+          requiredFeatures: ['hand-tracking']
+      }).then(onSessionStarted).catch(err => {
+          console.error('Failed to start AR session:', err);
+      });
+  } else {
+      console.error('WebXR is not supported on this device.');
   }
-}
+});
 
-// Initialize WebGL with Three.js
-function startWebGL() {
-  const canvas = document.getElementById("webgl");
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
+function onSessionStarted(session) {
+  session.addEventListener('end', onSessionEnded);
 
-  const scene = new THREE.Scene();
-
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
-  camera.position.set(0, 1.6, 0); // Starting position: simulate eye height for AR
-
-  // Create 5 cubes around the user in a circle
-  const cubes = [];
-  const radius = 2; // Radius of the circle
-  for (let i = 0; i < 5; i++) {
-    const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshBasicMaterial({ color: Math.random() * 0xffffff });
-    const cube = new THREE.Mesh(geometry, material);
-
-    // Position cubes in a circle around the user
-    const angle = (i / 5) * Math.PI * 2; // Equal spacing for 5 cubes
-    cube.position.set(
-      Math.cos(angle) * radius,
-      1.5, // Fixed height
-      Math.sin(angle) * radius
-    );
-
-    scene.add(cube);
-    cubes.push(cube);
-  }
-
-  // Device orientation to allow user to look around
-  window.addEventListener("deviceorientation", (event) => {
-    const gamma = event.gamma || 0; // Left/Right tilt
-    const beta = event.beta || 0; // Up/Down tilt
-
-    // Adjust camera position or rotation based on tilt
-    camera.rotation.y = THREE.MathUtils.degToRad(gamma); // Horizontal rotation
-    camera.rotation.x = THREE.MathUtils.degToRad(beta); // Vertical rotation
+  // 設置參考空間來處理虛擬物體的位置
+  const handTracking = session.requestReferenceSpace('local').then(referenceSpace => {
+      session.requestAnimationFrame(onXRFrame);
   });
 
-  // Check for proximity to each cube
-  function checkProximity() {
-    cubes.forEach((cube, index) => {
-      const distance = cube.position.distanceTo(camera.position);
-      if (distance < 2) { // If the cube is within 2 meters
-        showPopup(index); // Trigger the popup for this cube
+  function onXRFrame(time, frame) {
+      const referenceSpace = frame.getViewerPose(handTracking);
+      if (referenceSpace) {
+          // 獲取手部追蹤位置
+          const handPosition = referenceSpace[0].pose.position;
+          console.log("Hand Position:", handPosition);
+
+          // 假設有一個虛擬物體的位置
+          const objectPosition = { x: 0, y: 1.5, z: 2 };  // 這是方塊在三維空間中的位置
+
+          // 檢查手部是否接近物體
+          if (isHandNearObject(handPosition, objectPosition)) {
+              triggerInteraction();
+          }
       }
-    });
   }
-
-  // Animate the scene
-  function animate() {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-    checkProximity(); // Check if any cube is close enough for interaction
-  }
-  animate();
 }
 
-// Show popup when close to a cube
-function showPopup(index) {
-  const popup = document.getElementById("popup");
-  const popupText = document.getElementById("popup-text");
-
-  popupText.innerText = `You found box #${index + 1}!`;
-  popup.style.display = "block";
-
-  // Close popup on button click
-  document.getElementById("close-popup").onclick = () => {
-    popup.style.display = "none";
-  };
+// 計算手部與物體之間的距離
+function isHandNearObject(handPosition, objectPosition) {
+  const distance = Math.sqrt(
+      Math.pow(handPosition.x - objectPosition.x, 2) +
+      Math.pow(handPosition.y - objectPosition.y, 2) +
+      Math.pow(handPosition.z - objectPosition.z, 2)
+  );
+  return distance < 0.5; // 如果手部距離物體小於 50 cm，就觸發互動
 }
 
-// Start everything
-startCamera();
-startWebGL();
+// 當手部接近物體時觸發互動
+function triggerInteraction() {
+  // 顯示觸摸彈窗
+  alert('You touched the object!');
+}
+
+// AR session 結束時的處理
+function onSessionEnded() {
+  console.log('AR session ended');
+}

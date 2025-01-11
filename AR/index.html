@@ -1,25 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Interactive AR with WebGL</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR 手部追蹤示範</title>
 </head>
 <body>
-  <!-- Video element for camera -->
-  <video id="camera" autoplay playsinline></video>
+    <!-- Add a button to start the AR session -->
+    <button id="start-ar-btn">開始 AR</button>
 
-  <!-- Canvas for WebGL -->
-  <canvas id="webgl"></canvas>
-
-  <!-- Pop-up dialog -->
-  <div id="popup">
-    <p id="popup-text">You found a box!</p>
-    <button id="close-popup">Close</button>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="script.js"></script>
+    <!-- Link to the external JavaScript file -->
+    <script src="script.js"></script>
 </body>
 </html>
