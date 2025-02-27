@@ -149,10 +149,6 @@ p {
     cursor: pointer;
 }
 
-.submit-btn:hover {
-    background-color: #70a585;
-}
-
 .footer {
     width: 100%;
     height: 80px; /* 增加 footer 高度 */
@@ -174,11 +170,11 @@ p {
 
 /* 角色圖片 */
 .footer-character img {
-    width: 25%; /* 縮小圖片 */
+    width: 15%; /* 縮小圖片 */
     aspect-ratio: 1.3 / 1; 
     position: absolute;
-    bottom:32px; /* 讓下半部壓在綠色區塊上 */
-    left:26%; /* 稍微靠左 */
+    bottom: 32px; /* 讓下半部壓在綠色區塊上 */
+    left: 38%; /* 稍微靠左 */
 }
 
 .submit-btn2 {
