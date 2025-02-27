@@ -22,8 +22,8 @@ body, html {
 
 /* 容器樣式 */
 .container {
-    width: 80%;
-    max-width: 350px;
+    width: 100%;
+    max-width: 500px;
     text-align: center;
     padding: 20px;
     height: 100vh;
@@ -61,19 +61,20 @@ body, html {
 
 /* 調整 h1 字體大小與加粗 */
 .container h1 {
-    font-size: 25px; /* 增加字體大小 */
+    font-size: 40px; /* 增加字體大小 */
     font-weight: bold; /* 加粗 */
     color: #7db996; /* 維持綠色調 */
-    margin-top: 15%;
+    margin-top: 20%;
 }
 
 /* 調整 p 的字體大小 */
 .container p {
-    font-size: 13px;
-    color: #6D6D6D;
+    font-size: 18px;
+    font-weight: bold; /* 加粗 */
+    color: #6d6d6daf;
+    letter-spacing: 2px;
     margin-bottom: 3%; /* 增加間距 */
 }
-
 
 /* 標題樣式 */
 h1 {
@@ -95,9 +96,9 @@ p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80%;
-    max-width: 350px;
-    margin-top: 5%;
+    width: 100%;
+    max-width: 500px;
+    margin-top: 7%;
 }
 
 /* 輸入容器 */
@@ -116,6 +117,7 @@ p {
     background-color: #7db996;
     color: white;
     padding: 10px 12px;
+    font-weight: bold; /* 加粗 */
     font-weight: bold;
 }
 
@@ -125,22 +127,27 @@ p {
     border: none;
     padding: 12px;
     outline: none;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: bold; /* 加粗 */
+    color: #6d6d6daf;
+    letter-spacing: 2px;
     background-color: #FDF6EC;
+    caret-color: #7db996;
 }
-
 
 /* 提交按鈕 */
 .submit-btn {
-    margin-top: 15%;
+    margin-top: 20%;
     width: 80%;
     padding: 12px 0;
-    font-size: 16px;
+    font-size: 18px;
     color: #FFFFFF;
+    font-weight: bold; /* 加粗 */
     background-color: #e1d8c8;
     border: none;
-    border-radius: 20px;
+    border-radius: 40px;
     cursor: not-allowed;
+    letter-spacing: 2px;
 }
 
 /* 按鈕啟用時的樣式 */
@@ -170,11 +177,11 @@ p {
 
 /* 角色圖片 */
 .footer-character img {
-    width: 15%; /* 縮小圖片 */
+    width: 65%; /* 縮小圖片 */
     aspect-ratio: 1.3 / 1; 
     position: absolute;
-    bottom: 32px; /* 讓下半部壓在綠色區塊上 */
-    left: 38%; /* 稍微靠左 */
+    bottom: 22px; /* 讓下半部壓在綠色區塊上 */
+    left: 5%; /* 稍微靠左 */
 }
 
 .submit-btn2 {
