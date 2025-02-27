@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Your island</title>
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> -->
+    <link rel="stylesheet" href='styles.css'>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Nova+Mono&display=swap" rel="stylesheet"> -->
+</head>
+<body>
+    <!-- 上方綠色區塊 -->
+    <div class="header"></div>
+    
+    <!-- 主要內容容器 -->
+    <div class="container">
+
+        <h1>STEP 1</h1>
+        <p>輸入您的Threads帳號。</p>
+
+        <div class="form-container">
+            <form class="form" id="threadsForm" action="/loading" method="POST">
+                <div class="input-container">
+                    <label for="thread_id">＠</label>
+                    <input type="text" id="thread_id" name="thread_id" placeholder="" required>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer"></div> <!-- 單條綠色區塊 -->
+        <div class="footer-character">
+                <img src="Threadman.png" alt="Threadman">
+            </div>
+        </div>        
+    </div>
+
+    <script>
+        // 控制按鈕啟用與否
+        const input = document.getElementById('thread_id');
+        const button = document.querySelector('.submit-btn');
+
+        input.addEventListener('input', () => {
+            if (input.value.trim()) {
+                button.disabled = false;
+                button.classList.add('active');
+            } else {
+                button.disabled = true;
+                button.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
